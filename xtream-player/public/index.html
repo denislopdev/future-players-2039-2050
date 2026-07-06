@@ -623,6 +623,10 @@
 
       const contentType = response.headers.get("content-type") || "";
       if (!contentType.includes("application/json")) {
+        if (IS_GITHUB_PAGES) {
+          throw new Error("API server is not ready yet. Wait a minute and try again, or deploy the API from render.yaml in the repository.");
+        }
+
         throw new Error("Server returned an invalid response. Please check API path.");
       }
 

@@ -492,7 +492,93 @@
       loadingBox.classList.remove("active");
     }
 
+    function absoluteUrl(baseUrl, targetUrl) {
+      return new URL(targetUrl, baseUrl).toString();
+    }
+
+    function parseAttributes(input) {
+      const attrs = {};
+      const regex = /([\w-]+)="([^"]*)"/g;
+      let match;
+
+      while ((match = regex.exec(input)) !== null) {
+        attrs[match[1]] = match[2];
+      }
+
+      return attrs;
+    }
+
+    function parseM3UClient(text, playlistUrl) {
+      const lines = text
+        .replace(/\r/g, "")
+        .split("\n")
+        .map(function (line) {
+          return line.trim();
+        })
+        .filter(Boolean);
+
+      const groupMap = {};
+      let current = null;
+
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i];
+
+        if (line.indexOf("#EXTINF") === 0) {
+          const commaIndex = line.indexOf(",");
+          const meta = commaIndex >= 0 ? line.slice(0, commaIndex) : line;
+          const name = commaIndex >= 0 ? line.slice(commaIndex + 1).trim() : "Untitled Channel";
+          const attrs = parseAttributes(meta);
+
+          current = {
+            name: name || attrs["tvg-name"] || "Untitled Channel",
+            logo: attrs["tvg-logo"] || "",
+            group: attrs["group-title"] || "Other",
+            url: ""
+          };
+        } else if (line.indexOf("#EXTGRP:") === 0 && current) {
+          current.group = line.replace("#EXTGRP:", "").trim() || "Other";
+        } else if (line.indexOf("#") !== 0 && current) {
+          current.url = absoluteUrl(playlistUrl, line);
+
+          if (!groupMap[current.group]) {
+            groupMap[current.group] = [];
+          }
+
+          groupMap[current.group].push(current);
+          current = null;
+        }
+      }
+
+      return Object.keys(groupMap)
+        .sort(function (a, b) {
+          return a.localeCompare(b, "en");
+        })
+        .map(function (name) {
+          return {
+            name: name,
+            channels: groupMap[name].sort(function (a, b) {
+              return a.name.localeCompare(b.name, "en");
+            })
+          };
+        });
+    }
+
+    async function fetchPlaylistText(url) {
+      const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
+      const response = await fetch(proxyUrl, { cache: "no-store" });
+
+      if (!response.ok) {
+        throw new Error("Could not load the playlist.");
+      }
+
+      return response.text();
+    }
+
     function proxiedUrl(url) {
+      if (IS_GITHUB_PAGES) {
+        return `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
+      }
+
       return `${API_BASE}/api/stream?url=${encodeURIComponent(url)}`;
     }
 
@@ -663,23 +749,49 @@
     async function loadPlaylist(url) {
       setStatus("Loading playlist...");
 
-      const response = await fetch(`${API_BASE}/api/playlist?url=${encodeURIComponent(url)}`, {
-        cache: "no-store"
-      });
+      try {
+        const response = await fetch(`${API_BASE}/api/playlist?url=${encodeURIComponent(url)}`, {
+          cache: "no-store"
+        });
 
-      const contentType = response.headers.get("content-type") || "";
+        const contentType = response.headers.get("content-type") || "";
 
-      if (!contentType.includes("application/json")) {
+        if (contentType.includes("application/json")) {
+          const data = await response.json();
+
+          if (!response.ok) {
+            throw new Error(data.error || "Loading error");
+          }
+
+          groups = data.groups || [];
+          activeGroup = groups[0]?.name || "";
+
+          renderFolders();
+          renderChannels();
+
+          if (!groups.length) {
+            setStatus("Playlist loaded, but no channels were found.", "error");
+          }
+
+          return;
+        }
+      } catch (error) {
+        if (!IS_GITHUB_PAGES) {
+          throw error;
+        }
+      }
+
+      if (!IS_GITHUB_PAGES) {
         throw new Error("Server returned an invalid response. Please check API path.");
       }
 
-      const data = await response.json();
+      const text = await fetchPlaylistText(url);
 
-      if (!response.ok) {
-        throw new Error(data.error || "Loading error");
+      if (text.indexOf("#EXTM3U") === -1) {
+        throw new Error("This does not look like a valid M3U playlist");
       }
 
-      groups = data.groups || [];
+      groups = parseM3UClient(text, url);
       activeGroup = groups[0]?.name || "";
 
       renderFolders();
