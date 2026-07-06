@@ -4,7 +4,7 @@ GitHub Pages serves static files only. The Xtream player and full M3U streaming 
 
 ## One-click deploy on Render (free)
 
-1. Open: https://render.com/deploy?repo=https://github.com/denislopdev/future-players-2039-2050
+1. Open: https://render.com/deploy?repo=https://github.com/denislopdev/online-players-m3u-extreme-code
 2. Sign in with GitHub if asked
 3. Approve the Blueprint (`render.yaml`)
 4. Wait 2–5 minutes for the service `future-players-api` to become live

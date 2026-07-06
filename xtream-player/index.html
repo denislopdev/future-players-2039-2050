@@ -16,7 +16,7 @@
   <main class="xapp">
     <header class="xheader">
       <div>
-        <a class="xhome" href="../">? Online Players Home</a>
+        <a class="xhome" href="../">&#8592; Online Players Home</a>
         <h1 class="xtitle">?? Extreme Code Player Online</h1>
         <p class="xsubtitle">Enter DNS, username, and password to load your live TV channels.</p>
       </div>
@@ -60,8 +60,8 @@
   </main>
 
   <footer class="player-footer">
-    <p>Free to use · Created by <a href="https://github.com/denislopdev" target="_blank" rel="noopener">Denis Lop</a></p>
-    <p><a href="../">? Back to Online Players Home</a></p>
+    <p>Free to use ? Created by <a href="https://github.com/denislopdev" target="_blank" rel="noopener">Denis Lop</a></p>
+    <p><a href="../">&#8592; Back to Online Players Home</a></p>
   </footer>
   </div>
 
@@ -239,14 +239,17 @@
 
       if (isHls && window.Hls && Hls.isSupported()) {
         hls = new Hls({
-          enableWorker: true,
+          enableWorker: false,
           lowLatencyMode: false,
           backBufferLength: 60,
           maxBufferLength: 30,
           maxMaxBufferLength: 60,
           manifestLoadingTimeOut: 45000,
           levelLoadingTimeOut: 45000,
-          fragLoadingTimeOut: 60000
+          fragLoadingTimeOut: 60000,
+          xhrSetup: function (xhr) {
+            xhr.withCredentials = false;
+          }
         });
 
         hls.loadSource(source);

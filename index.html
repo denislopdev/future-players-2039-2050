@@ -217,13 +217,36 @@
     footer a:hover { text-decoration: underline; }
 
     .footer-bottom {
-      margin-top: 18px;
+      margin-top: 20px;
       display: flex;
       align-items: center;
-      justify-content: center;
+      justify-content: space-between;
       gap: 12px;
       flex-wrap: wrap;
     }
+
+    .footer-copy {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .footer-credits {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-left: auto;
+      flex-wrap: wrap;
+    }
+
+    .credit-link {
+      color: var(--muted);
+      font-size: 12px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.18s ease;
+    }
+
+    .credit-link:hover { color: var(--cyan); }
 
     .bmc-link {
       display: inline-flex;
@@ -238,6 +261,7 @@
       background: linear-gradient(135deg, #ffdd00, #f59e0b);
       box-shadow: 0 0 20px rgba(245, 158, 11, 0.45);
       transition: 0.18s ease;
+      animation: bmc-pulse 2.5s ease-in-out infinite;
     }
 
     .bmc-link:hover {
@@ -246,9 +270,27 @@
       color: #1a1200;
     }
 
+    @keyframes bmc-pulse {
+      0%, 100% { box-shadow: 0 0 20px rgba(245, 158, 11, 0.45); }
+      50% { box-shadow: 0 0 28px rgba(255, 221, 0, 0.6); }
+    }
+
+    .readme-link {
+      display: inline-flex;
+      margin-top: 8px;
+      font-size: 13px;
+      color: var(--muted);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .readme-link:hover { color: var(--cyan); }
+
     @media (max-width: 720px) {
       .cards { grid-template-columns: 1fr; }
       .btn { width: 100%; }
+      .footer-bottom { justify-content: center; }
+      .footer-credits { margin-left: 0; justify-content: center; }
     }
   </style>
 </head>
@@ -283,12 +325,20 @@
 
     <p class="notice">No subscription. No payment. No hidden access. Just free online tools.</p>
 
+    <p style="text-align:center;margin:0 0 24px;">
+      <a class="readme-link" href="./readme/">Read the project README</a>
+    </p>
+
     <footer>
       <h4>Built and Managed by Denis Lop</h4>
       <p>Free to use</p>
-      <a href="https://github.com/denislopdev/future-players-2039-2050" target="_blank" rel="noopener">github.com/denislopdev/future-players-2039-2050</a>
+      <a href="https://github.com/denislopdev/online-players-m3u-extreme-code" target="_blank" rel="noopener">github.com/denislopdev/online-players-m3u-extreme-code</a>
       <div class="footer-bottom">
-        <a class="bmc-link" href="https://buymeacoffee.com/denislopdev" target="_blank" rel="noopener noreferrer">☕ Buy me a coffee</a>
+        <div class="footer-copy">&copy; 2026 Denis Lop &middot; Online Players &middot; MIT License</div>
+        <div class="footer-credits">
+          <a class="credit-link" href="https://github.com/denislopdev" target="_blank" rel="noopener">Denis Lop</a>
+          <a class="bmc-link" href="https://buymeacoffee.com/denislopdev" target="_blank" rel="noopener noreferrer">&#9749; Buy me a coffee</a>
+        </div>
       </div>
     </footer>
   </div>

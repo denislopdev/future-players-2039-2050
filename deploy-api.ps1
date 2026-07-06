@@ -1,7 +1,7 @@
 # Deploy Future Players API on Render
 $ErrorActionPreference = "Stop"
 
-$url = "https://render.com/deploy?repo=https://github.com/denislopdev/future-players-2039-2050"
+$url = "https://render.com/deploy?repo=https://github.com/denislopdev/online-players-m3u-extreme-code"
 
 Write-Host "Opening Render one-click deploy..." -ForegroundColor Cyan
 Write-Host $url -ForegroundColor Yellow

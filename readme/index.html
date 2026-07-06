@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="README for Online Players M3U and Extreme Code Free to Use by Denis Lop." />
+  <title>README | Online Players - Denis Lop</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --void: #020617;
+      --void-2: #0b1120;
+      --glass: rgba(15, 23, 42, 0.62);
+      --border: rgba(148, 163, 184, 0.14);
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --cyan: #22d3ee;
+      --violet: #a78bfa;
+      --radius: 20px;
+      --radius-sm: 12px;
+      --font: "Outfit", system-ui, sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; }
+    body { font-family: var(--font); color: var(--text); background: var(--void); line-height: 1.65; }
+
+    .page {
+      --mesh-x: 50%;
+      --mesh-y: 30%;
+      min-height: 100vh;
+      background:
+        radial-gradient(ellipse 80% 60% at var(--mesh-x) var(--mesh-y), rgba(34, 211, 238, 0.09), transparent 55%),
+        linear-gradient(180deg, var(--void) 0%, var(--void-2) 100%);
+    }
+
+    .wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 40px 20px 60px;
+    }
+
+    .back {
+      display: inline-block;
+      margin-bottom: 24px;
+      color: var(--cyan);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .back:hover { text-decoration: underline; }
+
+    article {
+      padding: 32px 28px;
+      border-radius: var(--radius);
+      background: var(--glass);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(24px);
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      font-size: clamp(1.4rem, 4vw, 1.9rem);
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+
+    .lead { margin: 0 0 28px; color: var(--muted); }
+
+    h2 {
+      margin: 28px 0 12px;
+      font-size: 1.05rem;
+      color: var(--cyan);
+    }
+
+    ul, ol { margin: 0 0 16px; padding-left: 22px; }
+    li { margin-bottom: 6px; }
+    p { margin: 0 0 14px; color: var(--muted); }
+    strong { color: var(--text); }
+    a { color: var(--cyan); }
+    code {
+      font-size: 0.92em;
+      padding: 2px 6px;
+      border-radius: 6px;
+      background: rgba(34, 211, 238, 0.08);
+      color: var(--cyan);
+    }
+
+    pre {
+      margin: 0 0 16px;
+      padding: 14px 16px;
+      border-radius: var(--radius-sm);
+      background: rgba(2, 6, 23, 0.7);
+      border: 1px solid var(--border);
+      overflow-x: auto;
+      font-size: 13px;
+      color: #cbd5e1;
+    }
+  </style>
+</head>
+<body>
+<div class="page" id="pageRoot">
+  <div class="wrap">
+    <a class="back" href="../">&#8592; Online Players Home</a>
+
+    <article>
+      <h1>Online Players M3U and Extreme Code Free to Use</h1>
+      <p class="lead">A free collection of online player tools created by Denis Lop.</p>
+
+      <h2>Included tools</h2>
+      <ul>
+        <li><a href="../m3u-player/">M3U Player Online</a></li>
+        <li><a href="../xtream-player/">Extreme Code Player Online</a></li>
+      </ul>
+
+      <h2>Features</h2>
+      <ul>
+        <li>Free to use</li>
+        <li>Browser-based</li>
+        <li>No subscription</li>
+        <li>No hidden payment</li>
+        <li>Clean futuristic landing page</li>
+        <li>Created by Denis Lop</li>
+      </ul>
+
+      <h2>Author</h2>
+      <p><strong>Denis Lop</strong></p>
+
+      <h2>Local development</h2>
+      <p>Each player includes a Node.js server for playlist proxying and streaming. GitHub Pages serves the static UI only; for full playback, run the server locally:</p>
+      <pre>cd m3u-player
+npm install
+npm start</pre>
+      <pre>cd xtream-player
+npm install
+npm start</pre>
+      <p>The M3U player runs on port 3000 by default. Stop it before starting the Extreme Code player, or set a different <code>PORT</code> environment variable.</p>
+
+      <h2>GitHub Pages</h2>
+      <p>After publishing, enable GitHub Pages from the repository settings and select the <strong>main</strong> branch with the <strong>root</strong> folder.</p>
+      <p>The player UI is served from GitHub Pages. Playlist and stream proxy APIs run on a free Render service at <code>https://future-players-api.onrender.com</code> (configured automatically when opened from <code>*.github.io</code>).</p>
+
+      <h2>API hosting (Render)</h2>
+      <p>The <code>api/</code> folder and <code>render.yaml</code> deploy a combined Node.js proxy for both players. Connect the repository on <a href="https://render.com" target="_blank" rel="noopener">Render</a> using the Blueprint (<code>render.yaml</code>) or create a Web Service with root directory <code>api</code>.</p>
+      <p>First request after idle may take up to a minute on the free plan.</p>
+
+      <h2>Privacy</h2>
+      <ul>
+        <li>No <code>localStorage</code>, <code>sessionStorage</code>, or cookies are used to save your playlist URL or login data.</li>
+        <li>Pressing <strong>Clear</strong> removes all entered data from the page immediately.</li>
+        <li>When you close the tab, the player clears fields automatically.</li>
+        <li>Playlist and stream requests pass through the API proxy only while you use the player; they are not stored in the project code.</li>
+      </ul>
+
+      <h2>License</h2>
+      <p>MIT License</p>
+    </article>
+  </div>
+</div>
+<script src="../assets/mouse-glow.js"></script>
+</body>
+</html>

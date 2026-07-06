@@ -247,6 +247,10 @@ function getRequestBasePath(req) {
     return "/m3u-player";
   }
 
+  if (originalUrl.indexOf("/xtream-player/") === 0 || originalUrl === "/xtream-player") {
+    return "/xtream-player";
+  }
+
   return "";
 }
 

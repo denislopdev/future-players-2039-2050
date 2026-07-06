@@ -216,6 +216,36 @@
       return `${API_BASE}/api/stream?url=${encodeURIComponent(url)}`;
     }
 
+    function looksLikeHls(url) {
+      try {
+        const pathname = new URL(url).pathname.toLowerCase();
+        return pathname.endsWith(".m3u8") || pathname.endsWith(".m3u");
+      } catch (error) {
+        return /\.m3u8?($|\?)/i.test(String(url || ""));
+      }
+    }
+
+    let playbackTimer = null;
+
+    function clearPlaybackTimer() {
+      if (playbackTimer) {
+        clearTimeout(playbackTimer);
+        playbackTimer = null;
+      }
+    }
+
+    function startPlaybackTimer() {
+      clearPlaybackTimer();
+      playbackTimer = setTimeout(function () {
+        hideLoading();
+        if (hls) {
+          hls.destroy();
+          hls = null;
+        }
+        setStatus("Playback timed out. Please try another channel.", "error");
+      }, 60000);
+    }
+
     function setStatus(message, type = "") {
       channelsEl.innerHTML = `<div class="m3u-status ${type}">${escapeHtml(message)}</div>`;
     }
@@ -294,12 +324,35 @@
       });
     }
 
+    function playDirectStream(source) {
+      video.src = source;
+
+      video.onplaying = function () {
+        clearPlaybackTimer();
+        hideLoading();
+      };
+
+      video.onloadeddata = function () {
+        clearPlaybackTimer();
+        hideLoading();
+      };
+
+      video.onerror = function () {
+        clearPlaybackTimer();
+        hideLoading();
+        setStatus("Playback error. Please try another channel.", "error");
+      };
+
+      video.play().catch(function () {});
+    }
+
     function playChannel(url, name) {
       activeChannelUrl = url;
       nowTitle.textContent = name;
       nowUrl.textContent = "";
 
       showLoading();
+      startPlaybackTimer();
 
       if (hls) {
         hls.destroy();
@@ -311,24 +364,27 @@
       video.load();
 
       const source = proxiedUrl(url);
-      const lowerUrl = url.toLowerCase();
+      const isHls = looksLikeHls(url);
 
-      const isHls =
-        lowerUrl.includes(".m3u8") ||
-        lowerUrl.includes(".m3u") ||
-        lowerUrl.includes("m3u8") ||
-        lowerUrl.includes("playlist");
+      if (isHls && video.canPlayType("application/vnd.apple.mpegurl")) {
+        playDirectStream(source);
+        renderChannels();
+        return;
+      }
 
       if (isHls && window.Hls && Hls.isSupported()) {
         hls = new Hls({
-          enableWorker: true,
+          enableWorker: false,
           lowLatencyMode: false,
           backBufferLength: 60,
           maxBufferLength: 30,
           maxMaxBufferLength: 60,
           manifestLoadingTimeOut: 45000,
           levelLoadingTimeOut: 45000,
-          fragLoadingTimeOut: 60000
+          fragLoadingTimeOut: 60000,
+          xhrSetup: function (xhr) {
+            xhr.withCredentials = false;
+          }
         });
 
         hls.loadSource(source);
@@ -339,42 +395,33 @@
         });
 
         hls.on(Hls.Events.FRAG_BUFFERED, function () {
+          clearPlaybackTimer();
           hideLoading();
         });
 
         hls.on(Hls.Events.ERROR, function (_, data) {
-          if (data.fatal) {
-            if (data.type === Hls.ErrorTypes.NETWORK_ERROR) {
-              hls.startLoad();
-            } else if (data.type === Hls.ErrorTypes.MEDIA_ERROR) {
-              hls.recoverMediaError();
-            } else {
-              hideLoading();
-              hls.destroy();
-              hls = null;
-              setStatus("Playback error. Please try another channel.", "error");
-            }
+          if (!data.fatal) {
+            return;
           }
+
+          if (data.type === Hls.ErrorTypes.NETWORK_ERROR) {
+            hls.startLoad();
+            return;
+          }
+
+          if (data.type === Hls.ErrorTypes.MEDIA_ERROR) {
+            hls.recoverMediaError();
+            return;
+          }
+
+          clearPlaybackTimer();
+          hideLoading();
+          hls.destroy();
+          hls = null;
+          setStatus("Playback error. Please try another channel.", "error");
         });
       } else {
-        video.src = source;
-
-        video.onplaying = function () {
-          hideLoading();
-        };
-
-        video.onloadeddata = function () {
-          hideLoading();
-        };
-
-        video.onerror = function () {
-          hideLoading();
-          setStatus("Playback error. Please try another channel.", "error");
-        };
-
-        video.play().catch(function () {
-          hideLoading();
-        });
+        playDirectStream(source);
       }
 
       renderChannels();
