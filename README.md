@@ -1,11 +1,11 @@
-# Future Players 2039–2050
+# Online Players M3U and Extreme Code Free to Use
 
 A free collection of online player tools created by Denis Lop.
 
 ## Included tools
 
 - M3U Player Online
-- Xtream Codes Player Online
+- Extreme Code Player Online
 
 ## Features
 
@@ -36,7 +36,7 @@ npm install
 npm start
 ```
 
-The M3U player runs on port 3000 by default. Stop it before starting the Xtream player, or set a different `PORT` environment variable.
+The M3U player runs on port 3000 by default. Stop it before starting the Extreme Code player, or set a different `PORT` environment variable.
 
 ## GitHub Pages
 
@@ -49,6 +49,13 @@ The player UI is served from GitHub Pages. Playlist and stream proxy APIs run on
 The `api/` folder and `render.yaml` deploy a combined Node.js proxy for both players. Connect the repository on [Render](https://render.com) using the Blueprint (`render.yaml`) or create a Web Service with root directory `api`.
 
 First request after idle may take up to a minute on the free plan.
+
+## Privacy
+
+- No `localStorage`, `sessionStorage`, or cookies are used to save your playlist URL or login data.
+- Pressing **Clear** removes all entered data from the page immediately.
+- When you close the tab, the player clears fields automatically.
+- Playlist and stream requests pass through the API proxy only while you use the player; they are not stored in the project code.
 
 ## License
 

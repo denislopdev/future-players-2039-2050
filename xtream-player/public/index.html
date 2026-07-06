@@ -4,336 +4,20 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Xtream Codes Player Online</title>
-
-  <style>
-    * { box-sizing: border-box; }
-
-    html, body {
-      margin: 0;
-      min-height: 100%;
-      font-family: "Segoe UI", Arial, sans-serif;
-      background: #f7f8fb;
-      color: #141824;
-    }
-
-    body { padding: 18px; }
-
-    .xapp {
-      max-width: 1280px;
-      margin: 0 auto;
-    }
-
-    .xheader {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 16px;
-      margin-bottom: 16px;
-    }
-
-    .xhome {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      width: fit-content;
-      margin-bottom: 10px;
-      padding: 10px 15px;
-      border-radius: 999px;
-      background: #ff6a14;
-      color: #ffffff;
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: 700;
-      box-shadow: 0 10px 24px rgba(255, 106, 20, 0.25);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .xhome:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 14px 30px rgba(255, 106, 20, 0.32);
-    }
-
-    .xtitle {
-      margin: 0;
-      font-size: 24px;
-      line-height: 1.2;
-      letter-spacing: -0.03em;
-    }
-
-    .xsubtitle {
-      margin: 6px 0 0;
-      color: #687084;
-      font-size: 14px;
-    }
-
-    .xclear {
-      border: 0;
-      cursor: pointer;
-      border-radius: 999px;
-      padding: 11px 16px;
-      background: #ffffff;
-      color: #2c3242;
-      box-shadow: 0 10px 30px rgba(20, 24, 36, 0.08);
-      font-weight: 600;
-    }
-
-    .xclear:hover { background: #f3f5fa; }
-
-    .xform {
-      display: grid;
-      grid-template-columns: 1.3fr 1fr 1fr auto;
-      gap: 10px;
-      background: #ffffff;
-      border-radius: 22px;
-      padding: 10px;
-      box-shadow: 0 18px 45px rgba(20, 24, 36, 0.08);
-      margin-bottom: 16px;
-    }
-
-    .xinput {
-      width: 100%;
-      border: 0;
-      outline: 0;
-      background: #f3f5fa;
-      border-radius: 16px;
-      padding: 15px 16px;
-      font-size: 16px;
-      color: #141824;
-    }
-
-    .xinput:focus {
-      box-shadow: inset 0 0 0 2px rgba(37, 99, 235, 0.18);
-    }
-
-    .xbutton {
-      border: 0;
-      cursor: pointer;
-      border-radius: 16px;
-      padding: 0 22px;
-      background: #2563eb;
-      color: #ffffff;
-      font-size: 15px;
-      font-weight: 700;
-      white-space: nowrap;
-    }
-
-    .xbutton:hover { background: #1d4ed8; }
-
-    .xlayout {
-      display: grid;
-      grid-template-columns: 310px minmax(0, 1fr);
-      gap: 16px;
-      align-items: start;
-    }
-
-    .xpanel, .xplayer-card {
-      background: #ffffff;
-      border-radius: 24px;
-      box-shadow: 0 18px 45px rgba(20, 24, 36, 0.08);
-      overflow: hidden;
-    }
-
-    .xpanel { min-height: 520px; }
-
-    .xsearch-wrap {
-      padding: 14px;
-      border-bottom: 1px solid #eef1f7;
-    }
-
-    .xsearch {
-      width: 100%;
-      border: 0;
-      outline: 0;
-      background: #f3f5fa;
-      border-radius: 14px;
-      padding: 13px 14px;
-      font-size: 15px;
-    }
-
-    .xsearch:focus {
-      box-shadow: inset 0 0 0 2px rgba(37, 99, 235, 0.16);
-    }
-
-    .xcategories {
-      display: flex;
-      flex-direction: column;
-      max-height: 230px;
-      overflow: auto;
-      padding: 10px;
-      gap: 8px;
-      border-bottom: 1px solid #eef1f7;
-    }
-
-    .xcategory {
-      border: 0;
-      cursor: pointer;
-      width: 100%;
-      text-align: left;
-      border-radius: 14px;
-      padding: 12px 13px;
-      background: #f7f8fb;
-      color: #2c3242;
-      font-weight: 650;
-    }
-
-    .xcategory:hover { background: #eef2ff; }
-
-    .xcategory.active {
-      background: #2563eb;
-      color: #ffffff;
-    }
-
-    .xchannels {
-      max-height: 420px;
-      overflow: auto;
-      padding: 10px;
-    }
-
-    .xchannel {
-      width: 100%;
-      border: 0;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      text-align: left;
-      border-radius: 16px;
-      padding: 10px;
-      background: transparent;
-      color: #141824;
-    }
-
-    .xchannel:hover, .xchannel.active { background: #f3f5fa; }
-
-    .xlogo {
-      width: 38px;
-      height: 38px;
-      min-width: 38px;
-      border-radius: 12px;
-      background: #e9edf7;
-      display: grid;
-      place-items: center;
-      overflow: hidden;
-      font-size: 18px;
-    }
-
-    .xlogo img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-    }
-
-    .xchannel-name {
-      font-size: 14px;
-      font-weight: 650;
-      line-height: 1.25;
-    }
-
-    .xvideo-wrap {
-      position: relative;
-      background: #080b12;
-      aspect-ratio: 16 / 9;
-      width: 100%;
-      display: grid;
-      place-items: center;
-    }
-
-    video {
-      width: 100%;
-      height: 100%;
-      background: #080b12;
-      outline: 0;
-    }
-
-    .xloading {
-      position: absolute;
-      inset: 0;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      background: rgba(8, 11, 18, 0.55);
-      color: #ffffff;
-      font-size: 15px;
-      font-weight: 700;
-      z-index: 2;
-      pointer-events: none;
-    }
-
-    .xloading.active { display: flex; }
-
-    .xnow {
-      padding: 16px;
-      border-top: 1px solid #eef1f7;
-    }
-
-    .xnow-title {
-      margin: 0;
-      font-size: 18px;
-      font-weight: 800;
-    }
-
-    .xempty, .xstatus {
-      padding: 22px;
-      text-align: center;
-      color: #687084;
-      line-height: 1.5;
-    }
-
-    .xstatus.error { color: #dc2626; }
-
-    @media (max-width: 920px) {
-      body { padding: 10px; }
-
-      .xform {
-        grid-template-columns: 1fr;
-        border-radius: 20px;
-      }
-
-      .xbutton { height: 50px; }
-
-      .xlayout { grid-template-columns: 1fr; }
-
-      .xplayer-card { order: 1; }
-
-      .xpanel {
-        order: 2;
-        min-height: auto;
-      }
-
-      .xcategories {
-        flex-direction: row;
-        max-height: none;
-        overflow-x: auto;
-        overflow-y: hidden;
-        padding-bottom: 12px;
-      }
-
-      .xcategory {
-        min-width: max-content;
-        width: auto;
-      }
-
-      .xchannels { max-height: 360px; }
-    }
-
-    @media (max-width: 520px) {
-      .xheader { flex-direction: column; }
-      .xclear, .xhome { width: 100%; }
-      .xtitle { font-size: 20px; }
-      .xsubtitle { font-size: 13px; }
-      .xnow-title { font-size: 16px; }
-    }
-  </style>
+  <title>Extreme Code Player Online | Online Players - Denis Lop</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/players-dark.css" />
 </head>
 
 <body>
+  <div class="page" id="pageRoot">
   <main class="xapp">
     <header class="xheader">
       <div>
-        <a class="xhome" href="../">← Back to Gallery</a>
-        <h1 class="xtitle">📺 Xtream Codes Player Online</h1>
+        <a class="xhome" href="../">? Online Players Home</a>
+        <h1 class="xtitle">?? Extreme Code Player Online</h1>
         <p class="xsubtitle">Enter DNS, username, and password to load your live TV channels.</p>
       </div>
 
@@ -375,6 +59,13 @@
     </section>
   </main>
 
+  <footer class="player-footer">
+    <p>Free to use � Created by <a href="https://github.com/denislopdev" target="_blank" rel="noopener">Denis Lop</a></p>
+    <p><a href="../">? Back to Online Players Home</a></p>
+  </footer>
+  </div>
+
+  <script src="../assets/mouse-glow.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 
   <script>
@@ -456,7 +147,7 @@
 
         return `
           <button class="xcategory ${isActive}" type="button" data-category="${escapeHtml(id)}">
-            📁 ${escapeHtml(cat.category_name || "Other")}
+            ?? ${escapeHtml(cat.category_name || "Other")}
             <span>(${cat.count || 0})</span>
           </button>
         `;
@@ -490,7 +181,7 @@
         const isActive = streamId === activeChannelId ? "active" : "";
         const logo = channel.stream_icon
           ? `<img src="${escapeHtml(channel.stream_icon)}" alt="">`
-          : `📺`;
+          : `??`;
 
         return `
           <button
@@ -553,9 +244,9 @@
           backBufferLength: 60,
           maxBufferLength: 30,
           maxMaxBufferLength: 60,
-          manifestLoadingTimeOut: 20000,
-          levelLoadingTimeOut: 20000,
-          fragLoadingTimeOut: 30000
+          manifestLoadingTimeOut: 45000,
+          levelLoadingTimeOut: 45000,
+          fragLoadingTimeOut: 60000
         });
 
         hls.loadSource(source);

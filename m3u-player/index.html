@@ -4,393 +4,23 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>M3U Player Online</title>
-
+  <title>M3U Player Online | Online Players - Denis Lop</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/players-dark.css" />
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    html,
-    body {
-      margin: 0;
-      min-height: 100%;
-      font-family: "Segoe UI", Arial, sans-serif;
-      background: #f7f8fb;
-      color: #141824;
-    }
-
-    body {
-      padding: 18px;
-    }
-
-    .m3u-app {
-      max-width: 1280px;
-      margin: 0 auto;
-    }
-
-    .m3u-header {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 16px;
-      margin-bottom: 16px;
-    }
-
-    .m3u-home {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      width: fit-content;
-      margin-bottom: 10px;
-      padding: 10px 15px;
-      border-radius: 999px;
-      background: #ff6a14;
-      color: #ffffff;
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: 700;
-      box-shadow: 0 10px 24px rgba(255, 106, 20, 0.25);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .m3u-home:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 14px 30px rgba(255, 106, 20, 0.32);
-    }
-
-    .m3u-title {
-      margin: 0;
-      font-size: 24px;
-      line-height: 1.2;
-      letter-spacing: -0.03em;
-    }
-
-    .m3u-subtitle {
-      margin: 6px 0 0;
-      color: #687084;
-      font-size: 14px;
-    }
-
-    .m3u-clear {
-      border: 0;
-      cursor: pointer;
-      border-radius: 999px;
-      padding: 11px 16px;
-      background: #ffffff;
-      color: #2c3242;
-      box-shadow: 0 10px 30px rgba(20, 24, 36, 0.08);
-      font-weight: 600;
-    }
-
-    .m3u-clear:hover {
-      background: #f3f5fa;
-    }
-
-    .m3u-form {
-      display: flex;
-      gap: 10px;
-      background: #ffffff;
-      border-radius: 22px;
-      padding: 10px;
-      box-shadow: 0 18px 45px rgba(20, 24, 36, 0.08);
-      margin-bottom: 16px;
-    }
-
-    .m3u-input {
-      flex: 1;
-      width: 100%;
-      border: 0;
-      outline: 0;
-      background: #f3f5fa;
-      border-radius: 16px;
-      padding: 15px 16px;
-      font-size: 16px;
-      color: #141824;
-    }
-
-    .m3u-input:focus {
-      box-shadow: inset 0 0 0 2px rgba(37, 99, 235, 0.18);
-    }
-
-    .m3u-button {
-      border: 0;
-      cursor: pointer;
-      border-radius: 16px;
-      padding: 0 22px;
-      background: #2563eb;
-      color: #ffffff;
-      font-size: 15px;
-      font-weight: 700;
-      white-space: nowrap;
-    }
-
-    .m3u-button:hover {
-      background: #1d4ed8;
-    }
-
-    .m3u-layout {
-      display: grid;
-      grid-template-columns: 310px minmax(0, 1fr);
-      gap: 16px;
-      align-items: start;
-    }
-
-    .m3u-panel,
-    .m3u-player-card {
-      background: #ffffff;
-      border-radius: 24px;
-      box-shadow: 0 18px 45px rgba(20, 24, 36, 0.08);
-      overflow: hidden;
-    }
-
-    .m3u-panel {
-      min-height: 520px;
-    }
-
-    .m3u-search-wrap {
-      padding: 14px;
-      border-bottom: 1px solid #eef1f7;
-    }
-
-    .m3u-search {
-      width: 100%;
-      border: 0;
-      outline: 0;
-      background: #f3f5fa;
-      border-radius: 14px;
-      padding: 13px 14px;
-      font-size: 15px;
-    }
-
-    .m3u-search:focus {
-      box-shadow: inset 0 0 0 2px rgba(37, 99, 235, 0.16);
-    }
-
-    .m3u-folders {
-      display: flex;
-      flex-direction: column;
-      max-height: 230px;
-      overflow: auto;
-      padding: 10px;
-      gap: 8px;
-      border-bottom: 1px solid #eef1f7;
-    }
-
-    .m3u-folder {
-      border: 0;
-      cursor: pointer;
-      width: 100%;
-      text-align: left;
-      border-radius: 14px;
-      padding: 12px 13px;
-      background: #f7f8fb;
-      color: #2c3242;
-      font-weight: 650;
-    }
-
-    .m3u-folder:hover {
-      background: #eef2ff;
-    }
-
-    .m3u-folder.active {
-      background: #2563eb;
-      color: #ffffff;
-    }
-
-    .m3u-channels {
-      max-height: 420px;
-      overflow: auto;
-      padding: 10px;
-    }
-
-    .m3u-channel {
-      width: 100%;
-      border: 0;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      text-align: left;
-      border-radius: 16px;
-      padding: 10px;
-      background: transparent;
-      color: #141824;
-    }
-
-    .m3u-channel:hover,
-    .m3u-channel.active {
-      background: #f3f5fa;
-    }
-
-    .m3u-logo {
-      width: 38px;
-      height: 38px;
-      min-width: 38px;
-      border-radius: 12px;
-      background: #e9edf7;
-      display: grid;
-      place-items: center;
-      overflow: hidden;
-      font-size: 18px;
-    }
-
-    .m3u-logo img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-    }
-
-    .m3u-channel-name {
-      font-size: 14px;
-      font-weight: 650;
-      line-height: 1.25;
-    }
-
-    .m3u-video-wrap {
-      position: relative;
-      background: #080b12;
-      aspect-ratio: 16 / 9;
-      width: 100%;
-      display: grid;
-      place-items: center;
-    }
-
-    video {
-      width: 100%;
-      height: 100%;
-      background: #080b12;
-      outline: 0;
-    }
-
-    .m3u-loading {
-      position: absolute;
-      inset: 0;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      background: rgba(8, 11, 18, 0.55);
-      color: #ffffff;
-      font-size: 15px;
-      font-weight: 700;
-      z-index: 2;
-      pointer-events: none;
-    }
-
-    .m3u-loading.active {
-      display: flex;
-    }
-
-    .m3u-now {
-      padding: 16px;
-      border-top: 1px solid #eef1f7;
-    }
-
-    .m3u-now-title {
-      margin: 0;
-      font-size: 18px;
-      font-weight: 800;
-    }
-
-    .m3u-now-url {
-      display: none;
-    }
-
-    .m3u-empty,
-    .m3u-status {
-      padding: 22px;
-      text-align: center;
-      color: #687084;
-      line-height: 1.5;
-    }
-
-    .m3u-status.error {
-      color: #dc2626;
-    }
-
-    @media (max-width: 860px) {
-      body {
-        padding: 10px;
-      }
-
-      .m3u-title {
-        font-size: 21px;
-      }
-
-      .m3u-form {
-        flex-direction: column;
-        border-radius: 20px;
-      }
-
-      .m3u-button {
-        height: 50px;
-      }
-
-      .m3u-layout {
-        grid-template-columns: 1fr;
-      }
-
-      .m3u-player-card {
-        order: 1;
-      }
-
-      .m3u-panel {
-        order: 2;
-        min-height: auto;
-      }
-
-      .m3u-folders {
-        flex-direction: row;
-        max-height: none;
-        overflow-x: auto;
-        overflow-y: hidden;
-        padding-bottom: 12px;
-      }
-
-      .m3u-folder {
-        min-width: max-content;
-        width: auto;
-      }
-
-      .m3u-channels {
-        max-height: 360px;
-      }
-    }
-
-    @media (max-width: 520px) {
-      .m3u-header {
-        flex-direction: column;
-      }
-
-      .m3u-clear {
-        width: 100%;
-      }
-
-      .m3u-home {
-        width: 100%;
-      }
-
-      .m3u-title {
-        font-size: 20px;
-      }
-
-      .m3u-subtitle {
-        font-size: 13px;
-      }
-
-      .m3u-now-title {
-        font-size: 16px;
-      }
-    }
+    .m3u-form { display: flex; }
+    .m3u-now-url { display: none; }
   </style>
 </head>
 
 <body>
+  <div class="page" id="pageRoot">
   <main class="m3u-app">
     <header class="m3u-header">
       <div>
-        <a class="m3u-home" href="../">← Back to Gallery</a>
+        <a class="m3u-home" href="../">← Online Players Home</a>
 
         <h1 class="m3u-title">📺 M3U Player Online</h1>
         <p class="m3u-subtitle">Paste your M3U playlist link and choose a channel.</p>
@@ -446,6 +76,14 @@
       </section>
     </section>
   </main>
+
+  <footer class="player-footer">
+    <p>Free to use · Created by <a href="https://github.com/denislopdev" target="_blank" rel="noopener">Denis Lop</a></p>
+    <p><a href="../">← Back to Online Players Home</a></p>
+  </footer>
+  </div>
+
+  <script src="../assets/mouse-glow.js"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 
@@ -575,10 +213,6 @@
     }
 
     function proxiedUrl(url) {
-      if (IS_GITHUB_PAGES) {
-        return `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
-      }
-
       return `${API_BASE}/api/stream?url=${encodeURIComponent(url)}`;
     }
 
@@ -692,9 +326,9 @@
           backBufferLength: 60,
           maxBufferLength: 30,
           maxMaxBufferLength: 60,
-          manifestLoadingTimeOut: 20000,
-          levelLoadingTimeOut: 20000,
-          fragLoadingTimeOut: 30000
+          manifestLoadingTimeOut: 45000,
+          levelLoadingTimeOut: 45000,
+          fragLoadingTimeOut: 60000
         });
 
         hls.loadSource(source);
