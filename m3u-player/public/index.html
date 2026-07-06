@@ -466,6 +466,11 @@
       .replace(/\/player\.html$/, "")
       .replace(/\/$/, "") || "";
 
+    const IS_GITHUB_PAGES = /\.github\.io$/i.test(window.location.hostname);
+    const API_BASE = IS_GITHUB_PAGES
+      ? "https://future-players-api.onrender.com/m3u-player"
+      : BASE_PATH;
+
     let groups = [];
     let activeGroup = "";
     let activeChannelUrl = "";
@@ -488,7 +493,7 @@
     }
 
     function proxiedUrl(url) {
-      return `${BASE_PATH}/api/stream?url=${encodeURIComponent(url)}`;
+      return `${API_BASE}/api/stream?url=${encodeURIComponent(url)}`;
     }
 
     function setStatus(message, type = "") {
@@ -658,7 +663,7 @@
     async function loadPlaylist(url) {
       setStatus("Loading playlist...");
 
-      const response = await fetch(`${BASE_PATH}/api/playlist?url=${encodeURIComponent(url)}`, {
+      const response = await fetch(`${API_BASE}/api/playlist?url=${encodeURIComponent(url)}`, {
         cache: "no-store"
       });
 

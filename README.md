@@ -42,6 +42,14 @@ The M3U player runs on port 3000 by default. Stop it before starting the Xtream 
 
 After publishing, enable GitHub Pages from the repository settings and select the **main** branch with the **root** folder.
 
+The player UI is served from GitHub Pages. Playlist and stream proxy APIs run on a free Render service at `https://future-players-api.onrender.com` (configured automatically when opened from `*.github.io`).
+
+## API hosting (Render)
+
+The `api/` folder and `render.yaml` deploy a combined Node.js proxy for both players. Connect the repository on [Render](https://render.com) using the Blueprint (`render.yaml`) or create a Web Service with root directory `api`.
+
+First request after idle may take up to a minute on the free plan.
+
 ## License
 
 MIT License

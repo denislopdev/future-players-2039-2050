@@ -395,6 +395,11 @@
       .replace(/\/xtream-player\.html$/, "")
       .replace(/\/$/, "") || "";
 
+    const IS_GITHUB_PAGES = /\.github\.io$/i.test(window.location.hostname);
+    const API_BASE = IS_GITHUB_PAGES
+      ? "https://future-players-api.onrender.com/xtream-player"
+      : BASE_PATH;
+
     let categories = [];
     let channels = [];
     let activeCategory = "all";
@@ -517,7 +522,7 @@
         ext: ext || "m3u8"
       });
 
-      return `${BASE_PATH}/api/xtream/stream?${params.toString()}`;
+      return `${API_BASE}/api/xtream/stream?${params.toString()}`;
     }
 
     function playChannel(streamId, name, ext) {
@@ -612,7 +617,7 @@
 
       const params = new URLSearchParams(session);
 
-      const response = await fetch(`${BASE_PATH}/api/xtream/live?${params.toString()}`, {
+      const response = await fetch(`${API_BASE}/api/xtream/live?${params.toString()}`, {
         cache: "no-store"
       });
 
