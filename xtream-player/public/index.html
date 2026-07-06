@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Xtream Codes Player Online</title>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: #f7f8fb;
+      color: #141824;
+    }
+
+    body { padding: 18px; }
+
+    .xapp {
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .xheader {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .xhome {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: fit-content;
+      margin-bottom: 10px;
+      padding: 10px 15px;
+      border-radius: 999px;
+      background: #ff6a14;
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 700;
+      box-shadow: 0 10px 24px rgba(255, 106, 20, 0.25);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .xhome:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 30px rgba(255, 106, 20, 0.32);
+    }
+
+    .xtitle {
+      margin: 0;
+      font-size: 24px;
+      line-height: 1.2;
+      letter-spacing: -0.03em;
+    }
+
+    .xsubtitle {
+      margin: 6px 0 0;
+      color: #687084;
+      font-size: 14px;
+    }
+
+    .xclear {
+      border: 0;
+      cursor: pointer;
+      border-radius: 999px;
+      padding: 11px 16px;
+      background: #ffffff;
+      color: #2c3242;
+      box-shadow: 0 10px 30px rgba(20, 24, 36, 0.08);
+      font-weight: 600;
+    }
+
+    .xclear:hover { background: #f3f5fa; }
+
+    .xform {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr 1fr auto;
+      gap: 10px;
+      background: #ffffff;
+      border-radius: 22px;
+      padding: 10px;
+      box-shadow: 0 18px 45px rgba(20, 24, 36, 0.08);
+      margin-bottom: 16px;
+    }
+
+    .xinput {
+      width: 100%;
+      border: 0;
+      outline: 0;
+      background: #f3f5fa;
+      border-radius: 16px;
+      padding: 15px 16px;
+      font-size: 16px;
+      color: #141824;
+    }
+
+    .xinput:focus {
+      box-shadow: inset 0 0 0 2px rgba(37, 99, 235, 0.18);
+    }
+
+    .xbutton {
+      border: 0;
+      cursor: pointer;
+      border-radius: 16px;
+      padding: 0 22px;
+      background: #2563eb;
+      color: #ffffff;
+      font-size: 15px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .xbutton:hover { background: #1d4ed8; }
+
+    .xlayout {
+      display: grid;
+      grid-template-columns: 310px minmax(0, 1fr);
+      gap: 16px;
+      align-items: start;
+    }
+
+    .xpanel, .xplayer-card {
+      background: #ffffff;
+      border-radius: 24px;
+      box-shadow: 0 18px 45px rgba(20, 24, 36, 0.08);
+      overflow: hidden;
+    }
+
+    .xpanel { min-height: 520px; }
+
+    .xsearch-wrap {
+      padding: 14px;
+      border-bottom: 1px solid #eef1f7;
+    }
+
+    .xsearch {
+      width: 100%;
+      border: 0;
+      outline: 0;
+      background: #f3f5fa;
+      border-radius: 14px;
+      padding: 13px 14px;
+      font-size: 15px;
+    }
+
+    .xsearch:focus {
+      box-shadow: inset 0 0 0 2px rgba(37, 99, 235, 0.16);
+    }
+
+    .xcategories {
+      display: flex;
+      flex-direction: column;
+      max-height: 230px;
+      overflow: auto;
+      padding: 10px;
+      gap: 8px;
+      border-bottom: 1px solid #eef1f7;
+    }
+
+    .xcategory {
+      border: 0;
+      cursor: pointer;
+      width: 100%;
+      text-align: left;
+      border-radius: 14px;
+      padding: 12px 13px;
+      background: #f7f8fb;
+      color: #2c3242;
+      font-weight: 650;
+    }
+
+    .xcategory:hover { background: #eef2ff; }
+
+    .xcategory.active {
+      background: #2563eb;
+      color: #ffffff;
+    }
+
+    .xchannels {
+      max-height: 420px;
+      overflow: auto;
+      padding: 10px;
+    }
+
+    .xchannel {
+      width: 100%;
+      border: 0;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-align: left;
+      border-radius: 16px;
+      padding: 10px;
+      background: transparent;
+      color: #141824;
+    }
+
+    .xchannel:hover, .xchannel.active { background: #f3f5fa; }
+
+    .xlogo {
+      width: 38px;
+      height: 38px;
+      min-width: 38px;
+      border-radius: 12px;
+      background: #e9edf7;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      font-size: 18px;
+    }
+
+    .xlogo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .xchannel-name {
+      font-size: 14px;
+      font-weight: 650;
+      line-height: 1.25;
+    }
+
+    .xvideo-wrap {
+      position: relative;
+      background: #080b12;
+      aspect-ratio: 16 / 9;
+      width: 100%;
+      display: grid;
+      place-items: center;
+    }
+
+    video {
+      width: 100%;
+      height: 100%;
+      background: #080b12;
+      outline: 0;
+    }
+
+    .xloading {
+      position: absolute;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: rgba(8, 11, 18, 0.55);
+      color: #ffffff;
+      font-size: 15px;
+      font-weight: 700;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .xloading.active { display: flex; }
+
+    .xnow {
+      padding: 16px;
+      border-top: 1px solid #eef1f7;
+    }
+
+    .xnow-title {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .xempty, .xstatus {
+      padding: 22px;
+      text-align: center;
+      color: #687084;
+      line-height: 1.5;
+    }
+
+    .xstatus.error { color: #dc2626; }
+
+    @media (max-width: 920px) {
+      body { padding: 10px; }
+
+      .xform {
+        grid-template-columns: 1fr;
+        border-radius: 20px;
+      }
+
+      .xbutton { height: 50px; }
+
+      .xlayout { grid-template-columns: 1fr; }
+
+      .xplayer-card { order: 1; }
+
+      .xpanel {
+        order: 2;
+        min-height: auto;
+      }
+
+      .xcategories {
+        flex-direction: row;
+        max-height: none;
+        overflow-x: auto;
+        overflow-y: hidden;
+        padding-bottom: 12px;
+      }
+
+      .xcategory {
+        min-width: max-content;
+        width: auto;
+      }
+
+      .xchannels { max-height: 360px; }
+    }
+
+    @media (max-width: 520px) {
+      .xheader { flex-direction: column; }
+      .xclear, .xhome { width: 100%; }
+      .xtitle { font-size: 20px; }
+      .xsubtitle { font-size: 13px; }
+      .xnow-title { font-size: 16px; }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="xapp">
+    <header class="xheader">
+      <div>
+        <a class="xhome" href="../">← Back to Gallery</a>
+        <h1 class="xtitle">📺 Xtream Codes Player Online</h1>
+        <p class="xsubtitle">Enter DNS, username, and password to load your live TV channels.</p>
+      </div>
+
+      <button class="xclear" id="clearBtn" type="button">Clear</button>
+    </header>
+
+    <form class="xform" id="loginForm">
+      <input class="xinput" id="dnsInput" type="url" placeholder="DNS / Server URL, example: http://example.com" autocomplete="off" required />
+      <input class="xinput" id="usernameInput" type="text" placeholder="Username" autocomplete="off" required />
+      <input class="xinput" id="passwordInput" type="password" placeholder="Password" autocomplete="off" required />
+      <button class="xbutton" type="submit">Open Playlist</button>
+    </form>
+
+    <section class="xlayout">
+      <aside class="xpanel">
+        <div class="xsearch-wrap">
+          <input class="xsearch" id="searchInput" type="search" placeholder="Search channel..." autocomplete="off" />
+        </div>
+
+        <div class="xcategories" id="categories">
+          <div class="xempty">Categories will appear after login.</div>
+        </div>
+
+        <div class="xchannels" id="channels">
+          <div class="xempty">No channels loaded yet.</div>
+        </div>
+      </aside>
+
+      <section class="xplayer-card">
+        <div class="xvideo-wrap">
+          <div class="xloading" id="loadingBox">Loading channel...</div>
+          <video id="video" controls playsinline webkit-playsinline></video>
+        </div>
+
+        <div class="xnow">
+          <p class="xnow-title" id="nowTitle">No channel selected</p>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+
+  <script>
+    const loginForm = document.getElementById("loginForm");
+    const dnsInput = document.getElementById("dnsInput");
+    const usernameInput = document.getElementById("usernameInput");
+    const passwordInput = document.getElementById("passwordInput");
+    const categoriesEl = document.getElementById("categories");
+    const channelsEl = document.getElementById("channels");
+    const searchInput = document.getElementById("searchInput");
+    const video = document.getElementById("video");
+    const nowTitle = document.getElementById("nowTitle");
+    const clearBtn = document.getElementById("clearBtn");
+    const loadingBox = document.getElementById("loadingBox");
+
+    const BASE_PATH = window.location.pathname
+      .replace(/\/index\.html$/, "")
+      .replace(/\/xtream-player\.html$/, "")
+      .replace(/\/$/, "") || "";
+
+    let categories = [];
+    let channels = [];
+    let activeCategory = "all";
+    let activeChannelId = "";
+    let hls = null;
+    let session = {
+      dns: "",
+      username: "",
+      password: ""
+    };
+
+    function escapeHtml(value) {
+      return String(value || "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;");
+    }
+
+    function showLoading() {
+      loadingBox.classList.add("active");
+    }
+
+    function hideLoading() {
+      loadingBox.classList.remove("active");
+    }
+
+    function normalizeDns(value) {
+      return String(value || "").trim().replace(/\/+$/, "");
+    }
+
+    function setStatus(message, type = "") {
+      channelsEl.innerHTML = `<div class="xstatus ${type}">${escapeHtml(message)}</div>`;
+    }
+
+    function renderCategories() {
+      if (!categories.length) {
+        categoriesEl.innerHTML = `<div class="xempty">Categories will appear after login.</div>`;
+        return;
+      }
+
+      const allCount = channels.length;
+      const items = [
+        { category_id: "all", category_name: "All Channels", count: allCount },
+        ...categories.map((cat) => ({
+          ...cat,
+          count: channels.filter((ch) => String(ch.category_id || "") === String(cat.category_id || "")).length
+        }))
+      ];
+
+      categoriesEl.innerHTML = items.map((cat) => {
+        const id = String(cat.category_id || "all");
+        const isActive = id === String(activeCategory) ? "active" : "";
+
+        return `
+          <button class="xcategory ${isActive}" type="button" data-category="${escapeHtml(id)}">
+            📁 ${escapeHtml(cat.category_name || "Other")}
+            <span>(${cat.count || 0})</span>
+          </button>
+        `;
+      }).join("");
+
+      document.querySelectorAll(".xcategory").forEach((button) => {
+        button.addEventListener("click", () => {
+          activeCategory = button.dataset.category;
+          renderCategories();
+          renderChannels();
+        });
+      });
+    }
+
+    function renderChannels() {
+      const search = searchInput.value.trim().toLowerCase();
+
+      let filtered = channels.filter((channel) => {
+        const sameCategory = activeCategory === "all" || String(channel.category_id || "") === String(activeCategory);
+        const sameSearch = String(channel.name || "").toLowerCase().includes(search);
+        return sameCategory && sameSearch;
+      });
+
+      if (!filtered.length) {
+        channelsEl.innerHTML = `<div class="xempty">No channels found.</div>`;
+        return;
+      }
+
+      channelsEl.innerHTML = filtered.map((channel) => {
+        const streamId = String(channel.stream_id || "");
+        const isActive = streamId === activeChannelId ? "active" : "";
+        const logo = channel.stream_icon
+          ? `<img src="${escapeHtml(channel.stream_icon)}" alt="">`
+          : `📺`;
+
+        return `
+          <button
+            class="xchannel ${isActive}"
+            type="button"
+            data-id="${escapeHtml(streamId)}"
+            data-name="${escapeHtml(channel.name || "Channel")}"
+            data-ext="${escapeHtml(channel.container_extension || "m3u8")}"
+          >
+            <span class="xlogo">${logo}</span>
+            <span class="xchannel-name">${escapeHtml(channel.name || "Channel")}</span>
+          </button>
+        `;
+      }).join("");
+
+      document.querySelectorAll(".xchannel").forEach((button) => {
+        button.addEventListener("click", () => {
+          playChannel(button.dataset.id, button.dataset.name, button.dataset.ext);
+        });
+      });
+    }
+
+    function getStreamUrl(streamId, ext) {
+      const params = new URLSearchParams({
+        dns: session.dns,
+        username: session.username,
+        password: session.password,
+        stream_id: streamId,
+        ext: ext || "m3u8"
+      });
+
+      return `${BASE_PATH}/api/xtream/stream?${params.toString()}`;
+    }
+
+    function playChannel(streamId, name, ext) {
+      if (!streamId) return;
+
+      activeChannelId = String(streamId);
+      nowTitle.textContent = name || "Selected channel";
+      showLoading();
+
+      if (hls) {
+        hls.destroy();
+        hls = null;
+      }
+
+      video.pause();
+      video.removeAttribute("src");
+      video.load();
+
+      const source = getStreamUrl(streamId, ext);
+      const lowerExt = String(ext || "").toLowerCase();
+
+      const isHls = lowerExt.includes("m3u8") || lowerExt.includes("m3u");
+
+      if (isHls && window.Hls && Hls.isSupported()) {
+        hls = new Hls({
+          enableWorker: true,
+          lowLatencyMode: false,
+          backBufferLength: 60,
+          maxBufferLength: 30,
+          maxMaxBufferLength: 60,
+          manifestLoadingTimeOut: 20000,
+          levelLoadingTimeOut: 20000,
+          fragLoadingTimeOut: 30000
+        });
+
+        hls.loadSource(source);
+        hls.attachMedia(video);
+
+        hls.on(Hls.Events.MANIFEST_PARSED, function () {
+          video.play().catch(function () {});
+        });
+
+        hls.on(Hls.Events.FRAG_BUFFERED, function () {
+          hideLoading();
+        });
+
+        hls.on(Hls.Events.ERROR, function (_, data) {
+          if (data.fatal) {
+            if (data.type === Hls.ErrorTypes.NETWORK_ERROR) {
+              hls.startLoad();
+            } else if (data.type === Hls.ErrorTypes.MEDIA_ERROR) {
+              hls.recoverMediaError();
+            } else {
+              hideLoading();
+              hls.destroy();
+              hls = null;
+              setStatus("Playback error. Please try another channel.", "error");
+            }
+          }
+        });
+      } else {
+        video.src = source;
+
+        video.onplaying = function () { hideLoading(); };
+        video.onloadeddata = function () { hideLoading(); };
+
+        video.onerror = function () {
+          hideLoading();
+          setStatus("Playback error. Please try another channel.", "error");
+        };
+
+        video.play().catch(function () {
+          hideLoading();
+        });
+      }
+
+      renderChannels();
+    }
+
+    async function loadXtream() {
+      session = {
+        dns: normalizeDns(dnsInput.value),
+        username: usernameInput.value.trim(),
+        password: passwordInput.value.trim()
+      };
+
+      if (!session.dns || !session.username || !session.password) {
+        throw new Error("Please enter DNS, username, and password.");
+      }
+
+      setStatus("Loading Xtream playlist...");
+
+      const params = new URLSearchParams(session);
+
+      const response = await fetch(`${BASE_PATH}/api/xtream/live?${params.toString()}`, {
+        cache: "no-store"
+      });
+
+      const contentType = response.headers.get("content-type") || "";
+      if (!contentType.includes("application/json")) {
+        throw new Error("Server returned an invalid response. Please check API path.");
+      }
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Loading error");
+      }
+
+      categories = data.categories || [];
+      channels = data.channels || [];
+      activeCategory = "all";
+
+      renderCategories();
+      renderChannels();
+
+      if (!channels.length) {
+        setStatus("Connected, but no live channels were found.", "error");
+      }
+    }
+
+    function clearAll() {
+      categories = [];
+      channels = [];
+      activeCategory = "all";
+      activeChannelId = "";
+      session = { dns: "", username: "", password: "" };
+
+      if (hls) {
+        hls.destroy();
+        hls = null;
+      }
+
+      video.pause();
+      video.removeAttribute("src");
+      video.load();
+
+      dnsInput.value = "";
+      usernameInput.value = "";
+      passwordInput.value = "";
+      searchInput.value = "";
+
+      nowTitle.textContent = "No channel selected";
+
+      hideLoading();
+
+      renderCategories();
+      renderChannels();
+    }
+
+    loginForm.addEventListener("submit", async function (event) {
+      event.preventDefault();
+
+      try {
+        await loadXtream();
+      } catch (error) {
+        categories = [];
+        channels = [];
+        renderCategories();
+        setStatus(error.message || "Could not open Xtream playlist.", "error");
+      }
+    });
+
+    searchInput.addEventListener("input", renderChannels);
+    clearBtn.addEventListener("click", clearAll);
+
+    window.addEventListener("beforeunload", function () {
+      clearAll();
+    });
+  </script>
+</body>
+</html>

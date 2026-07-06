@@ -1,0 +1,17 @@
+{
+  "name": "xtream-codes-player-online",
+  "version": "1.0.0",
+  "description": "Xtream Codes Player Online — free browser-based Xtream Codes player",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "author": "Denis Lop",
+  "license": "MIT"
+}

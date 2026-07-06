@@ -1,0 +1,9 @@
+node_modules/
+tmp/
+stderr.log
+.htaccess
+.env
+*.log
+*.zip
+backup-original-files/
+.DS_Store

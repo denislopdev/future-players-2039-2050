@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Future Players 2039–2050 — free online M3U and Xtream Codes player tools by Denis Lop." />
+  <title>Future Players 2039–2050 | Denis Lop</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+    }
+
+    body {
+      font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+      color: #e8edf7;
+      background: #050810;
+      overflow-x: hidden;
+    }
+
+    .bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% -10%, rgba(0, 212, 255, 0.14), transparent 55%),
+        radial-gradient(ellipse 50% 40% at 90% 80%, rgba(168, 85, 247, 0.12), transparent 50%),
+        radial-gradient(ellipse 40% 35% at 10% 70%, rgba(34, 211, 238, 0.08), transparent 45%),
+        #050810;
+    }
+
+    .grid-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background-image:
+        linear-gradient(rgba(0, 212, 255, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 212, 255, 0.04) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: radial-gradient(ellipse 70% 70% at 50% 40%, black 20%, transparent 75%);
+    }
+
+    .wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 48px 20px 32px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .hero {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #67e8f9;
+      background: rgba(0, 212, 255, 0.08);
+      border: 1px solid rgba(0, 212, 255, 0.25);
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-family: "Orbitron", sans-serif;
+      font-size: clamp(1.5rem, 4.5vw, 2.35rem);
+      font-weight: 700;
+      line-height: 1.25;
+      margin: 0 0 16px;
+      background: linear-gradient(135deg, #ffffff 0%, #67e8f9 45%, #a78bfa 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subtitle {
+      margin: 0 auto;
+      max-width: 520px;
+      font-size: 15px;
+      line-height: 1.65;
+      color: #94a3b8;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+      margin-bottom: 36px;
+    }
+
+    .card {
+      position: relative;
+      padding: 28px 26px 26px;
+      border-radius: 20px;
+      background: rgba(15, 23, 42, 0.55);
+      border: 1px solid rgba(0, 212, 255, 0.15);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.03) inset,
+        0 20px 50px rgba(0, 0, 0, 0.35);
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 24px;
+      right: 24px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.5), transparent);
+      opacity: 0.7;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(0, 212, 255, 0.35);
+      box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.05) inset,
+        0 24px 60px rgba(0, 0, 0, 0.45),
+        0 0 40px rgba(0, 212, 255, 0.08);
+    }
+
+    .card-icon {
+      font-size: 28px;
+      margin-bottom: 14px;
+      line-height: 1;
+    }
+
+    .card h2 {
+      margin: 0 0 10px;
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #f1f5f9;
+    }
+
+    .card p {
+      margin: 0 0 22px;
+      font-size: 14px;
+      line-height: 1.6;
+      color: #94a3b8;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 13px 22px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      color: #050810;
+      background: linear-gradient(135deg, #22d3ee 0%, #06b6d4 100%);
+      border: none;
+      box-shadow: 0 0 24px rgba(34, 211, 238, 0.35);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 0 32px rgba(34, 211, 238, 0.5);
+    }
+
+    .btn-purple {
+      background: linear-gradient(135deg, #c084fc 0%, #a855f7 100%);
+      box-shadow: 0 0 24px rgba(168, 85, 247, 0.35);
+    }
+
+    .btn-purple:hover {
+      box-shadow: 0 0 32px rgba(168, 85, 247, 0.5);
+    }
+
+    .notice {
+      text-align: center;
+      padding: 18px 24px;
+      border-radius: 14px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #cbd5e1;
+      background: rgba(15, 23, 42, 0.4);
+      border: 1px solid rgba(148, 163, 184, 0.12);
+      margin-bottom: auto;
+    }
+
+    footer {
+      margin-top: 48px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(148, 163, 184, 0.1);
+      text-align: center;
+      font-size: 13px;
+      color: #64748b;
+      line-height: 1.7;
+    }
+
+    footer strong {
+      color: #94a3b8;
+      font-weight: 600;
+    }
+
+    @media (max-width: 720px) {
+      .wrap { padding-top: 32px; }
+      .cards { grid-template-columns: 1fr; gap: 18px; }
+      .card { padding: 24px 20px; }
+      .btn { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg" aria-hidden="true"></div>
+  <div class="grid-overlay" aria-hidden="true"></div>
+
+  <div class="wrap">
+    <header class="hero">
+      <span class="badge">Future Tools Gallery</span>
+      <h1>Future Possibilities in 2039–2050 Style</h1>
+      <p class="subtitle">
+        Free online player tools created by Denis Lop.<br />
+        Built for simple, open and free use.
+      </p>
+    </header>
+
+    <section class="cards" aria-label="Player tools">
+      <article class="card">
+        <div class="card-icon" aria-hidden="true">📺</div>
+        <h2>M3U Player Online</h2>
+        <p>Free online player for M3U playlists. Simple, fast, browser-based.</p>
+        <a class="btn" href="./m3u-player/">Open M3U Player</a>
+      </article>
+
+      <article class="card">
+        <div class="card-icon" aria-hidden="true">🛰️</div>
+        <h2>Xtream Codes Player Online</h2>
+        <p>Free online player for Xtream Codes access. Built for simple browser use.</p>
+        <a class="btn btn-purple" href="./xtream-player/">Open Xtream Codes Player</a>
+      </article>
+    </section>
+
+    <p class="notice">No subscription. No payment. No hidden access. Just free online tools.</p>
+
+    <footer>
+      <div><strong>Built and Managed by Denis Lop</strong></div>
+      <div>Free to use</div>
+    </footer>
+  </div>
+</body>
+</html>
